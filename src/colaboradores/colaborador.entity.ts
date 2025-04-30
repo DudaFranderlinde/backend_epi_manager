@@ -3,7 +3,7 @@ import { TipoPermissao } from 'src/enums/tipo-permissao.enum';
 import { Solicitacao } from 'src/solicitacoes/solicitaçoes.entity';
 
 @Entity()
-export class Colaborador {
+export class ColaboradorEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
