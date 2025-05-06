@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { TipoPermissao } from 'src/enums/tipo-permissao.enum';
-import { Solicitacao } from 'src/solicitacoes/solicitaçoes.entity';
+import { SolicitacaoEntity } from 'src/solicitacoes/solicitaçoes.entity';
 
 @Entity()
-export class Colaborador {
+export class ColaboradorEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -25,6 +25,15 @@ export class Colaborador {
   @Column({ default: false })
   lideranca: boolean;
 
+  @Column()
+  nome_lideranca: string;
+
+  @Column()
+  senha: string;
+
+  @Column()
+  salt: string;
+
   @Column({
     type: 'enum',
     enum: TipoPermissao,
@@ -32,6 +41,6 @@ export class Colaborador {
   })
   permissao: TipoPermissao;
 
-  @OneToMany(() => Solicitacao, solicitacao => solicitacao.colaborador)
-  solicitacoes: Solicitacao[];
+  @OneToMany(() => SolicitacaoEntity, solicitacao => solicitacao.colaborador)
+  solicitacoes: SolicitacaoEntity[];
 }

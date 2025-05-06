@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Estoque } from 'src/estoque/estoque.entity';
 import { HistoricoEntradaSaida } from 'src/historicoEntradaSaida/historicoEntradaSaida.entity';
-import { Solicitacao } from 'src/solicitacoes/solicitaçoes.entity';
+import { SolicitacaoEntity } from 'src/solicitacoes/solicitaçoes.entity';
 
 @Entity()
 export class Equipamento {
@@ -29,6 +29,6 @@ export class Equipamento {
   @OneToMany(() => HistoricoEntradaSaida, hist => hist.equipamento)
   historico: HistoricoEntradaSaida[];
 
-  @OneToMany(() => Solicitacao, sol => sol.equipamento)
-  solicitacoes: Solicitacao[];
+  @OneToMany(() => SolicitacaoEntity, sol => sol.equipamento)
+  solicitacoes: SolicitacaoEntity[];
 }
