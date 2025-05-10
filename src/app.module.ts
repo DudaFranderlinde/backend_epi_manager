@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { databaseProviders } from './core/database/database.providers';
 import { ColaboradoresModule } from './colaboradores/colaborador.module';
+import { AuthModule } from './core/auth/auth.module';
+import { JwtStrategy } from './core/auth/guard/jwt-strategy';
 
 @Module({
   imports: [
@@ -16,9 +18,10 @@ import { ColaboradoresModule } from './colaboradores/colaborador.module';
         expiresIn: '6h',
       },
     }),
-    ColaboradoresModule
+    ColaboradoresModule,
+    AuthModule
   ],
   controllers: [],
-  providers: [],
+  providers: [JwtStrategy],
 })
 export class AppModule {}
