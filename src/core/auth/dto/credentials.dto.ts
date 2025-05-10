@@ -2,8 +2,7 @@ import { IsEmail, IsString, MinLength } from "class-validator";
 
 export class CredentialsDTO{
     @IsString()
-    @IsEmail()
-    readonly email: string;
+    readonly matricula: string;
 
     @IsString()
     @MinLength(8)
