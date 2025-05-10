@@ -66,4 +66,12 @@ export class ColaboradorService {
         return colaborador;
       }
 
+    async findAll(): Promise<ColaboradorEntity[]>{
+        const allColaborador = this.colaboradorRepository.find();
+        (await allColaborador).forEach(element => delete element.senha);
+        (await allColaborador).forEach(element => delete element.salt);
+
+        return allColaborador;
+    }
+
 }
