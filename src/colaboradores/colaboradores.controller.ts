@@ -5,6 +5,7 @@ import {
     UseGuards,
     HttpException,
     HttpStatus,
+    Get,
   } from '@nestjs/common';
 import { ColaboradorService } from './colaborador.service';
 import { CreateColaboradorDto } from './dto/create-colaborador.dto';
@@ -12,6 +13,7 @@ import { TipoPermissao } from 'src/enums/tipo-permissao.enum';
 import { JwtAuthGuard } from 'src/core/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/core/roles/roles.guard';
 import { Roles } from 'src/core/roles/roles.decorator';
+import { ColaboradorEntity } from './colaborador.entity';
   
   @Controller('colaboradores')
   export class ColaboradorController {
@@ -42,5 +44,15 @@ import { Roles } from 'src/core/roles/roles.decorator';
               throw new HttpException({ error }, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Get('all')
+    async findAll(): Promise<ColaboradorEntity[]> {
+    try {
+      const availableColaborador = await this.colaboradorService.findAll();
+      return availableColaborador;
+    } catch (error) {
+      throw new HttpException({ error }, HttpStatus.BAD_REQUEST);
+    }
+  }
   }
   
