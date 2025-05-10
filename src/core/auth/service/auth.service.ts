@@ -22,7 +22,7 @@ export class AuthService {
         return user;
     }
 
-    async login(user: CredentialsDTO): Promise<{ token }> {
+    async login(user: CredentialsDTO) {
         return new Promise(async (resolve, reject) => {
             try {
                 const colaborador = await this.validateUser(user.matricula, user.password);
@@ -33,7 +33,10 @@ export class AuthService {
                 const payload = { id: colaborador.id, nome: colaborador.nome, permissao: colaborador.permissao };
                 const token = this.jwtService.sign(payload);
                 
-                return resolve({token}) ;
+                return resolve({
+                    token: token,
+                    permissao: colaborador.permissao
+                }) ;
             } catch (error) {
                 return reject({
                     code: error.code,
