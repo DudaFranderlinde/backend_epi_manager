@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateColaboradorDto } from "./dto/create-colaborador.dto";
 import { ColaboradorEntity } from "./colaborador.entity";
 import { JwtService } from "@nestjs/jwt";
@@ -51,6 +51,19 @@ export class ColaboradorService {
                 });
             }
         })
-}
+    }
+
+    async findByMatricula(matricula: string): Promise<ColaboradorEntity> {
+        const colaborador = await this.colaboradorRepository.findOne({
+          where: { matricula },
+          select: ['id', 'matricula', 'nome', 'senha', 'permissao'],
+        });
+    
+        if (!colaborador) {
+          throw new NotFoundException('Colaborador não encontrado');
+        }
+    
+        return colaborador;
+      }
 
 }
