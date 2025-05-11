@@ -9,7 +9,7 @@ export class EquipamentoEntity {
   id: number;
 
   @Column({ type: 'int', nullable: true, default: () => "nextval('equipamento_entity_codigo_seq')" })
-  codigo: string;
+  codigo: number;
 
   @Column()
   descricao: string;
