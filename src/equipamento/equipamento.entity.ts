@@ -4,17 +4,17 @@ import { HistoricoEntradaSaida } from 'src/historicoEntradaSaida/historicoEntrad
 import { SolicitacaoEntity } from 'src/solicitacoes/solicitaçoes.entity';
 
 @Entity()
-export class Equipamento {
+export class EquipamentoEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'int', nullable: true, default: () => "nextval('equipamento_entity_codigo_seq')" })
   codigo: string;
 
   @Column()
   descricao: string;
 
-  @Column()
+  @Column({type: 'numeric'})
   preco: number;
 
   @Column({ nullable: true })
