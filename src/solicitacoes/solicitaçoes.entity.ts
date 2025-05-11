@@ -1,7 +1,7 @@
 import { ColaboradorEntity } from 'src/colaboradores/colaborador.entity';
 import { StatusSolicitacao } from 'src/enums/status-solicitacao.enum';
 import { Urgencia } from 'src/enums/urgencia.enum';
-import { Equipamento } from 'src/equipamento/equipamento.entity';
+import { EquipamentoEntity } from 'src/equipamento/equipamento.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity()
@@ -30,8 +30,8 @@ export class SolicitacaoEntity {
   @Column({ type: 'enum', enum: Urgencia })
   urgencia: Urgencia;
 
-  @ManyToOne(() => Equipamento, equipamento => equipamento.solicitacoes)
-  equipamento: Equipamento;
+  @ManyToOne(() => EquipamentoEntity, equipamento => equipamento.solicitacoes)
+  equipamento: EquipamentoEntity;
 
   @ManyToOne(() => ColaboradorEntity, colaborador => colaborador.solicitacoes)
   colaborador: ColaboradorEntity;
