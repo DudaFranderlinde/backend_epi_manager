@@ -1,7 +1,7 @@
-import { ColaboradorEntity } from 'src/colaboradores/colaborador.entity';
-import { StatusSolicitacao } from 'src/enums/status-solicitacao.enum';
-import { Urgencia } from 'src/enums/urgencia.enum';
-import { EquipamentoEntity } from 'src/equipamento/equipamento.entity';
+import { ColaboradorEntity } from '../colaboradores/colaborador.entity';
+import { StatusSolicitacao } from '../enums/status-solicitacao.enum';
+import { Urgencia } from '../enums/urgencia.enum';
+import { EquipamentoEntity } from '../equipamento/equipamento.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity()

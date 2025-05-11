@@ -1,9 +1,10 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { SolicitacaoEntity } from "./solicitaçoes.entity";
 import { Repository } from "typeorm";
-import { EquipamentoService } from "src/equipamento/equipamento.service";
 import { CreateSolicitacaoDto } from "./dto/create-solicitacao.dto";
-import { ColaboradorService } from "src/colaboradores/colaborador.service";
+import { ColaboradorService } from "../colaboradores/colaborador.service";
+import { EquipamentoService } from "../equipamento/equipamento.service";
+
 
 @Injectable()
 export class SolicitacaoService {
