@@ -21,9 +21,25 @@ export class ColaboradorService {
         return existingColaborador
     }
 
+    async findColaboradorById(id: number): Promise<ColaboradorEntity>{
+        const existingColaborador = this.colaboradorRepository.findOne({
+            where: {id: id}
+        })
+        return existingColaborador
+    }
+
+    async findColaboradoByMatricula(matricula: string): Promise<ColaboradorEntity>{
+        const existingColaborador = this.colaboradorRepository.findOne({
+            where: {matricula: matricula}
+        })
+        return existingColaborador
+    }
+
     async create(dto: CreateColaboradorDto): Promise<ColaboradorEntity> {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log("entrou");
+                
                 const {senha} = dto;
                 const findColaborador = await this.findColaborador(dto.cpf);
                 
