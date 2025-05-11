@@ -5,6 +5,7 @@ import { databaseProviders } from './core/database/database.providers';
 import { ColaboradoresModule } from './colaboradores/colaborador.module';
 import { AuthModule } from './core/auth/auth.module';
 import { JwtStrategy } from './core/auth/guard/jwt-strategy';
+import { EquipamentoModule } from './equipamento/equipamento.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { JwtStrategy } from './core/auth/guard/jwt-strategy';
       },
     }),
     ColaboradoresModule,
-    AuthModule
+    AuthModule,
+    EquipamentoModule
   ],
   controllers: [],
   providers: [JwtStrategy],
