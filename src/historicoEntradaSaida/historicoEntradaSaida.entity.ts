@@ -1,4 +1,4 @@
-import { Equipamento } from 'src/equipamento/equipamento.entity';
+import { EquipamentoEntity } from 'src/equipamento/equipamento.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity()
@@ -18,6 +18,6 @@ export class HistoricoEntradaSaida {
   @Column()
   dataAtualizacao: Date;
 
-  @ManyToOne(() => Equipamento, equipamento => equipamento.historico)
-  equipamento: Equipamento;
+  @ManyToOne(() => EquipamentoEntity, equipamento => equipamento.historico)
+  equipamento: EquipamentoEntity;
 }
