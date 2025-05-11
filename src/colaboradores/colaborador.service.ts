@@ -53,10 +53,10 @@ export class ColaboradorService {
                 createColaborador.salt = await bcrypt.genSalt();
                 createColaborador.senha =  await bcrypt.hash(senha, createColaborador.salt);
                 
-                const createdColaborador = this.colaboradorRepository.save(createColaborador);
+                const createdColaborador = await this.colaboradorRepository.save(createColaborador);
 
-                delete (await createdColaborador).senha;
-                delete (await createdColaborador).salt;
+                delete createdColaborador.senha;
+                delete createdColaborador.salt;
 
                 resolve(createdColaborador);
 
