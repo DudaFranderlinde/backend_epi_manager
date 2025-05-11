@@ -9,10 +9,10 @@ export class SolicitacaoEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', unique: true, default: () => "nextval('solicitacao_entity_codigo_seq')", nullable: true })
   codigo: string;
 
-  @Column()
+  @Column({type: 'int'})
   qtd: number;
 
   @Column()
@@ -21,10 +21,10 @@ export class SolicitacaoEntity {
   @Column({ nullable: true })
   dataConclusao: Date;
 
-  @Column({ default: false })
+  @Column({ default: false, nullable: true })
   entrega: boolean;
 
-  @Column({ type: 'enum', enum: StatusSolicitacao })
+  @Column({ type: 'enum', enum: StatusSolicitacao, nullable: true })
   status: StatusSolicitacao;
 
   @Column({ type: 'enum', enum: Urgencia })
@@ -34,5 +34,8 @@ export class SolicitacaoEntity {
   equipamento: EquipamentoEntity;
 
   @ManyToOne(() => ColaboradorEntity, colaborador => colaborador.solicitacoes)
-  colaborador: ColaboradorEntity;
+  solicitante: ColaboradorEntity;
+
+  @ManyToOne(() => ColaboradorEntity, colaborador => colaborador.solicitacoes)
+  responsavel_epi: ColaboradorEntity;
 }
