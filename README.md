@@ -1,73 +1,186 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# 📦 Sistema de Solicitação de EPI — API (NestJS)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto tem como objetivo auxiliar no controle de fichas para solicitação de Equipamentos de Proteção Individual (EPI) dentro de uma organização. A aplicação é composta por um backend desenvolvido com **NestJS + TypeScript** e um frontend em **React + TypeScript**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 👤 Tipos de Usuário
 
-## Description
+- **Colaborador**: Pode solicitar EPIs, consultar solicitações realizadas e verificar equipamentos disponíveis.
+- **Almoxarifado**: Responsável por aprovar solicitações, atualizar estoque e cadastrar ou editar EPIs.
+- **Admin**: Controle total do sistema, incluindo o cadastro de novos colaboradores.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Installation
+## 🚀 Como rodar o projeto
+
+### 🧰 Requisitos
+
+- Node.js 18+
+- npm ou yarn
+- PostgreSQL (ou outro banco compatível configurado no `.env`)
+- Nest CLI (opcional): `npm i -g @nestjs/cli`
+
+---
+
+### 📁 Clonar o repositório
 
 ```bash
-$ npm install
+git clone https://github.com/seu-usuario/seu-repo.git
+cd seu-repo
 ```
 
-## Running the app
+### ⚙️ Configurar variáveis de ambiente
+Crie um arquivo .env na raiz igual ao arquivo `env.example` disponível no diretório
 
+### 📦 Instalar dependências
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
+# ou
+yarn
 ```
 
-## Test
-
+### 🔧 Executar migrações ou sincronizar banco (conforme config TypeORM)
 ```bash
-# unit tests
-$ npm run test
+npm run start:dev
+# ou
+yarn start:dev
+```
+### ▶️ Rodar o projeto
+```bash
+npm run start:dev
+# ou
+yarn start:dev
+```
+## 🧪 Testes Unitários Implementados
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+- `EquipamentoService`
+  - Cadastrar um novo equipamento de proteção
+  - Encontrar um equipamento pelo código
+- `SolicitacaoService`
+  - Criar uma nova solicitação
+  - Lançar erro se o equipamento não for encontrado 
+  - Lançar erro se o solicitante não for encontrado 
+  - Lançar erro se o responsável não for encontrado
+  - Retornar erro ao falhar ao salvar no banco
+- `ColaboradorService`
+  - Retornar colaborador pelo CPF
+  - Criar colaborador com senha criptografada
+  - Rejeitar criação se CPF já estiver cadastrado 
+  - Lançar NotFoundException se não encontrar por matrícula
+  - Retornar colaborador encontrado por matrícula
+ 
+### 🧪 Rodar testes unitários
+```bash
+npm run test
+# ou
+yarn test
 ```
 
-## Support
+## 🔐 Autenticação
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### `POST /auth/login`
+Realiza o login com matrícula e senha.
 
-## Stay in touch
+**Request:**
+```json
+{
+  "matricula": "admin123",
+  "senha": "senhaSegura"
+}
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**Response (200 OK):**
+```json
+{
+  "access_token": "<jwt-token>",
+  "permissao": "ADMIN"
+}
+```
 
-## License
+> ⚠️ Utiliza `UseGuards` com estratégia JWT e validação de permissão. Autorização é verificada via `@Roles(Permissao.ADMIN)` onde necessário.
 
-Nest is [MIT licensed](LICENSE).
+---
+
+## 👥 Colaboradores
+
+### `POST /colaboradores`
+Cadastra um novo colaborador (apenas para ADMIN).
+
+**Request:**
+```json
+{
+  "matricula": "12345",
+  "nome": "Maria Souza",
+  "cpf": "124.876.789-07",
+  "cargo": "Supervisor",
+  "setor": "Almoxarifado",
+  "lideranca": true,
+	"nome_lideranca": "Lucas Silva",
+  "permissao": "ALMOXARIFADO",
+  "senha": "senha123"
+}
+```
+
+**Authorization:**
+Header `Authorization: Bearer <token_do_admin>`
+
+---
+
+### `GET /colaboradores`
+Retorna todos os colaboradores cadastrados **sem exibir senha e salt**.
+
+---
+
+## 🛠️ Equipamentos
+
+### `POST /equipamentos`
+Cadastra novo equipamento. O código do equipamento é **gerado automaticamente** iniciando em `4550000`.
+
+**Request:**
+```json
+{
+  "descricao": "Luva de proteção térmica",
+  "ca": "12345",
+  "dataValidade": "2025-12-31",
+  "preco": 37.55555
+}
+```
+
+**Response:**
+```json
+{
+	"descricao": "Luva de proteção térmica",
+	"preco": 37.55555,
+	"dataValidade": "2025-12-31",
+	"ca": "12345",
+	"codigo": 4550008,
+	"id": 1
+}
+```
+
+---
+
+## 📄 Solicitações
+
+### `POST /solicitacoes`
+Cria uma solicitação de EPI. A solicitação entra com status `PENDENTE`.
+
+**Request:**
+```json
+{
+  "equipamentoId": 4550008,
+  "qtd": 2,
+  "urgencia": "MEDIA",
+	"responsavel": "Laura",
+	"matricula_responsavel": "12345"
+}
+```
+
+**Response:**
+```json
+{
+  "status": "PENDENTE",
+  "dataAbertura": "2025-05-11T14:00:00Z"
+}
+```
+
+---
