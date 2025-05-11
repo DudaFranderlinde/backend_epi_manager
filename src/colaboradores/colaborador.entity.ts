@@ -41,6 +41,6 @@ export class ColaboradorEntity {
   })
   permissao: TipoPermissao;
 
-  @OneToMany(() => SolicitacaoEntity, solicitacao => solicitacao.colaborador)
+  @OneToMany(() => SolicitacaoEntity, solicitacao => solicitacao.solicitante)
   solicitacoes: SolicitacaoEntity[];
 }

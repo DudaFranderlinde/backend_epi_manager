@@ -14,4 +14,13 @@ export class EquipamentoService {
     const equipamento = this.equipamentoRepo.create(dto);
     return this.equipamentoRepo.save(equipamento);
   }
+
+  async findOneByCod(codigo: number ): Promise<EquipamentoEntity>  {
+    const equipamento = this.equipamentoRepo.findOne({
+      where: {
+        codigo: codigo
+      }
+    });
+    return equipamento;
+  }
 }
