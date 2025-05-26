@@ -24,11 +24,15 @@ export class EquipamentoService {
     return equipamento;
   }
 
-    async findById(id: number): Promise<EquipamentoEntity> {
+  async findById(id: number): Promise<EquipamentoEntity> {
     const equipamento = await this.equipamentoRepo.findOne({ where: { id } });
     if (!equipamento) {
       throw new NotFoundException('Equipamento não encontrado');
     }
     return equipamento;
+  }
+
+  async findAll(): Promise<EquipamentoEntity[]> {
+    return this.equipamentoRepo.find();
   }
 }

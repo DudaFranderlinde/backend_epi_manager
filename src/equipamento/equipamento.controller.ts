@@ -23,4 +23,9 @@ export class EquipamentoController {
   async findById(@Param('id', ParseIntPipe) id: number) {
     return this.equipamentoService.findById(id);
   }
+
+  @Get()
+  async findAll() {
+    return this.equipamentoService.findAll();
+  }
 }
