@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "src/core/auth/guard/jwt-auth.guard";
 import { RolesGuard } from "src/core/roles/roles.guard";
 import { EquipamentoService } from "./equipamento.service";
@@ -17,5 +17,10 @@ export class EquipamentoController {
   @Roles(TipoPermissao.ADMIN, TipoPermissao.ALMOXARIFADO)
   async create(@Body() dto: CreateEquipamentoDto) {
     return this.equipamentoService.create(dto);
+  }
+
+  @Get(':id')
+  async findById(@Param('id', ParseIntPipe) id: number) {
+    return this.equipamentoService.findById(id);
   }
 }
