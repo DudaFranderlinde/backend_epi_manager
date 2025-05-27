@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Request, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "src/core/auth/guard/jwt-auth.guard";
 import { SolicitacaoService } from "./solicitacoes.service";
 import { CreateSolicitacaoDto } from "./dto/create-solicitacao.dto";
@@ -22,5 +22,11 @@ export class SolicitacaoController {
 
         throw new HttpException({ error }, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @Get('my-request')
+  async buscarMinhasSolicitacoes(@Request() req) {
+    const colaboradorId = req.user?.id;
+    return this.solicitacaoService.findByUserId(Number(colaboradorId));
   }
 }

@@ -49,4 +49,16 @@ export class SolicitacaoService {
     })
 
   }
+
+    async findByUserId(colaboradorId: number): Promise<SolicitacaoEntity[]> {
+    return this.solicitacaoRepo.find({
+      where: {
+        solicitante: {
+          id: colaboradorId,
+        },
+      },
+      relations:  ['equipamento'],
+      order: { dataAbertura: 'DESC' },
+    });
+  }
 }
