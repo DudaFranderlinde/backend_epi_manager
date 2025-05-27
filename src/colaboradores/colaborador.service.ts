@@ -4,6 +4,7 @@ import { ColaboradorEntity } from "./colaborador.entity";
 import { JwtService } from "@nestjs/jwt";
 import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import { UpdateColaboradorDto } from "./dto/update-colaborador.dto";
 
 
 @Injectable()
@@ -22,6 +23,8 @@ export class ColaboradorService {
     }
 
     async findColaboradorById(id: number): Promise<ColaboradorEntity>{
+        console.log(id);
+        
         const existingColaborador = this.colaboradorRepository.findOne({
             where: {id: id}
         })
@@ -31,6 +34,15 @@ export class ColaboradorService {
     async findColaboradoByMatricula(matricula: string): Promise<ColaboradorEntity>{
         const existingColaborador = this.colaboradorRepository.findOne({
             where: {matricula: matricula}
+        })
+        return existingColaborador
+    }
+
+    async findLead(): Promise<ColaboradorEntity[]>{
+        const existingColaborador = this.colaboradorRepository.find({
+            where: {
+                lideranca: true
+            }
         })
         return existingColaborador
     }
@@ -89,5 +101,24 @@ export class ColaboradorService {
 
         return allColaborador;
     }
+
+    async updateColaborador(id: number, data: UpdateColaboradorDto): Promise<ColaboradorEntity> {
+        const colaborador = await this.colaboradorRepository.findOne({ where: { id } });
+        if (!colaborador) throw new NotFoundException('Colaborador não encontrado');
+
+        if (data.cargo !== undefined) colaborador.cargo = data.cargo;
+        if (data.setor !== undefined) colaborador.setor = data.setor;
+        if (data.lideranca !== undefined) colaborador.lideranca = data.lideranca;
+        if (data.nome_lideranca !== undefined) colaborador.nome_lideranca = data.nome_lideranca;
+        if (data.permissao !== undefined) colaborador.permissao = data.permissao;
+        if (data.senha !== undefined) {
+            const salt = await bcrypt.genSalt();
+            colaborador.salt = salt;
+            colaborador.senha = await bcrypt.hash(data.senha, salt);
+        }
+
+        return this.colaboradorRepository.save(colaborador);
+    }
+
 
 }

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateEquipamentoDto } from "./dto/create-equipamento.dto";
 import { EquipamentoEntity } from "./equipamento.entity";
 import { Repository } from "typeorm";
@@ -22,5 +22,17 @@ export class EquipamentoService {
       }
     });
     return equipamento;
+  }
+
+  async findById(id: number): Promise<EquipamentoEntity> {
+    const equipamento = await this.equipamentoRepo.findOne({ where: { id } });
+    if (!equipamento) {
+      throw new NotFoundException('Equipamento não encontrado');
+    }
+    return equipamento;
+  }
+
+  async findAll(): Promise<EquipamentoEntity[]> {
+    return this.equipamentoRepo.find();
   }
 }
