@@ -29,4 +29,16 @@ export class SolicitacaoController {
     const colaboradorId = req.user?.id;
     return this.solicitacaoService.findByUserId(Number(colaboradorId));
   }
+
+  @Get('pending')
+  async solicitacaoPendente() {
+    return this.solicitacaoService.findPending();
+  }
+
+  @Get('all')
+  async all() {
+    return this.solicitacaoService.findAll();
+  }
+
+
 }

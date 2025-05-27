@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { CreateSolicitacaoDto } from "./dto/create-solicitacao.dto";
 import { ColaboradorService } from "../colaboradores/colaborador.service";
 import { EquipamentoService } from "../equipamento/equipamento.service";
+import { StatusSolicitacao } from "src/enums/status-solicitacao.enum";
 
 
 @Injectable()
@@ -50,15 +51,31 @@ export class SolicitacaoService {
 
   }
 
-    async findByUserId(colaboradorId: number): Promise<SolicitacaoEntity[]> {
+  async findByUserId(colaboradorId: number): Promise<SolicitacaoEntity[]> {
     return this.solicitacaoRepo.find({
       where: {
         solicitante: {
           id: colaboradorId,
         },
       },
-      relations:  ['equipamento'],
+      relations:  ['equipamento', 'solicitante', 'responsavel_epi'],
       order: { dataAbertura: 'DESC' },
+    });
+  }
+
+  async findPending(): Promise<SolicitacaoEntity[]> {
+    return this.solicitacaoRepo.find({
+      where: {
+        status:  StatusSolicitacao.PENDENTE
+      },
+      relations:  ['equipamento', 'solicitante', 'responsavel_epi'],
+      order: { dataAbertura: 'DESC' },
+    });
+  }
+
+  async findAll(): Promise<SolicitacaoEntity[]> {
+    return this.solicitacaoRepo.find({
+      relations:  ['equipamento', 'solicitante', 'responsavel_epi'],
     });
   }
 }
