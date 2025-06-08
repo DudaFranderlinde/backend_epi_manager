@@ -49,5 +49,12 @@ export class SolicitacaoController {
     return this.solicitacaoService.aprovarStatus(statusDto.id, statusDto.status);
   }
 
+  @Put('delivery')
+  async deliveryStatus(
+    @Body('id') id: number,
+  ) {
+    return this.solicitacaoService.entregueStatus(id);
+  }
+
 
 }
