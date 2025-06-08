@@ -14,9 +14,9 @@ export const AppDataSource = new DataSource({
     'dist/**/**/*.entity.js', // Corrigindo possível problema de importação da Entity.
   ],
   migrations: [
-    // __dirname + '../migrations/*{.ts,.js}',
-    __dirname + './migrations/*{.ts,.js}',
-    'dist/core/database/migrations/*{.ts,.js}',
+    process.env.NODE_ENV === 'production'
+      ? 'dist/core/database/migrations/*.js'
+      : 'src/core/database/migrations/*.ts',
   ],
   synchronize: false, //Essa propriedade não deve ser utilizada em produção! Caso contrário os dados poderão ser perdidos.
   migrationsRun: false,
