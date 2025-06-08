@@ -18,6 +18,6 @@ export class HistoricoEntradaSaida {
   @Column()
   dataAtualizacao: Date;
 
-  @ManyToOne(() => EquipamentoEntity, equipamento => equipamento.historico)
-  equipamento: EquipamentoEntity;
+  // @ManyToOne(() => EquipamentoEntity, equipamento => equipamento.historico)
+  // equipamento: EquipamentoEntity;
 }

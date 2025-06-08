@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateEquipamentoDto } from "./dto/create-equipamento.dto";
 import { EquipamentoEntity } from "./equipamento.entity";
 import { Repository } from "typeorm";
@@ -34,5 +34,20 @@ export class EquipamentoService {
 
   async findAll(): Promise<EquipamentoEntity[]> {
     return this.equipamentoRepo.find();
+  }
+
+    async descontarEstoque(equipamentoId: number, qtd: number): Promise<void> {
+    const equipamento = await this.equipamentoRepo.findOne({ where: { id: equipamentoId } });
+
+    if (!equipamento) {
+      throw new BadRequestException('Equipamento não encontrado');
+    }
+
+    if (equipamento.qtd < qtd) {
+      throw new BadRequestException('Estoque insuficiente');
+    }
+
+    equipamento.qtd -= qtd;
+    await this.equipamentoRepo.save(equipamento);
   }
 }
