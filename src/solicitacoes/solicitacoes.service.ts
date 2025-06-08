@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { SolicitacaoEntity } from "./solicitaçoes.entity";
 import { Repository } from "typeorm";
 import { CreateSolicitacaoDto } from "./dto/create-solicitacao.dto";
@@ -13,15 +13,17 @@ export class SolicitacaoService {
     @Inject('SOLICITACAO_REPOSITORY')
     private readonly solicitacaoRepo: Repository<SolicitacaoEntity>,
     private readonly equipamentoService: EquipamentoService,
-    private readonly colaboradorService: ColaboradorService
-
+    private readonly colaboradorService: ColaboradorService,
   ) {}
 
   async create(dto: CreateSolicitacaoDto, id_solicitante: number): Promise<SolicitacaoEntity> {
     return new Promise(async(resolve, reject) => {
             try {
                 const equipamento = await this.equipamentoService.findOneByCod(dto.equipamentoId);
-                if (!equipamento) throw new NotFoundException('Equipamento não encontrado');
+                if (!equipamento) throw new NotFoundException({message: 'Equipamento não encontrado'});
+
+                console.log(1);
+                
 
                 const solicitante = await this.colaboradorService.findColaboradorById(id_solicitante);
                 if (!solicitante) throw new NotFoundException('Erro na Integrção! Colaborador não encontrado');
@@ -78,4 +80,27 @@ export class SolicitacaoService {
       relations:  ['equipamento', 'solicitante', 'responsavel_epi'],
     });
   }
+
+  async aprovarStatus(id: number, status: StatusSolicitacao): Promise<SolicitacaoEntity> {
+    const solicitacao = await this.solicitacaoRepo.findOne({
+      where: { id },
+      relations: ['equipamento'],
+    });
+
+    if (!solicitacao) {
+      throw new NotFoundException('Solicitação não encontrada');
+    }
+
+    if (solicitacao.status !== StatusSolicitacao.PENDENTE) {
+      throw new BadRequestException('Solicitação já foi processada');
+    }
+
+    if (status === StatusSolicitacao.APROVADA) {
+      await this.equipamentoService.descontarEstoque(solicitacao.equipamento.id, solicitacao.qtd);
+    }
+
+    solicitacao.status = status;
+    return this.solicitacaoRepo.save(solicitacao);
+  }
+
 }

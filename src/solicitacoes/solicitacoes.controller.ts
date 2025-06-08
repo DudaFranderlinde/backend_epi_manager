@@ -1,7 +1,9 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Patch, Post, Put, Request, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "src/core/auth/guard/jwt-auth.guard";
 import { SolicitacaoService } from "./solicitacoes.service";
 import { CreateSolicitacaoDto } from "./dto/create-solicitacao.dto";
+import { StatusSolicitacao } from "src/enums/status-solicitacao.enum";
+import { UpdateStatusDto } from "./dto/update-status.dto";
 
 @UseGuards(JwtAuthGuard)
 @Controller('solicitacoes')
@@ -38,6 +40,13 @@ export class SolicitacaoController {
   @Get('all')
   async all() {
     return this.solicitacaoService.findAll();
+  }
+
+  @Put('aprove')
+  async atualizarStatus(
+    @Body() statusDto: UpdateStatusDto,
+  ) {
+    return this.solicitacaoService.aprovarStatus(statusDto.id, statusDto.status);
   }
 
 
