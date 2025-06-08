@@ -9,9 +9,6 @@ export class SolicitacaoEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', unique: true, default: () => "nextval('solicitacao_entity_codigo_seq')", nullable: true })
-  codigo: string;
-
   @Column({type: 'int'})
   qtd: number;
 
@@ -24,7 +21,7 @@ export class SolicitacaoEntity {
   @Column({ default: false, nullable: true })
   entrega: boolean;
 
-  @Column({ type: 'enum', enum: StatusSolicitacao, nullable: true })
+  @Column({ type: 'enum', enum: StatusSolicitacao, nullable: true, default: StatusSolicitacao.PENDENTE })
   status: StatusSolicitacao;
 
   @Column({ type: 'enum', enum: Urgencia })
