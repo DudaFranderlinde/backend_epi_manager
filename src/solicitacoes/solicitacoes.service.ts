@@ -103,17 +103,17 @@ export class SolicitacaoService {
     return this.solicitacaoRepo.save(solicitacao);
   }
 
-    async entregueStatus(id: number): Promise<SolicitacaoEntity> {
-      const solicitacao = await this.solicitacaoRepo.findOne({
-        where: { id, status: StatusSolicitacao.APROVADA },
-      });
+  async entregueStatus(id: number): Promise<SolicitacaoEntity> {
+    const solicitacao = await this.solicitacaoRepo.findOne({
+      where: { id, status: StatusSolicitacao.APROVADA },
+    });
 
-      if (!solicitacao) {
-        throw new NotFoundException('Solicitação não encontrada');
-      }
+    if (!solicitacao) {
+      throw new NotFoundException('Solicitação não encontrada');
+    }
 
-      solicitacao.status = StatusSolicitacao.ENTREGUE;
-      return this.solicitacaoRepo.save(solicitacao);
+    solicitacao.status = StatusSolicitacao.ENTREGUE;
+    return this.solicitacaoRepo.save(solicitacao);
   }
 
 }

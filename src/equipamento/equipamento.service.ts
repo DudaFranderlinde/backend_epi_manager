@@ -36,7 +36,7 @@ export class EquipamentoService {
     return this.equipamentoRepo.find();
   }
 
-    async descontarEstoque(equipamentoId: number, qtd: number): Promise<void> {
+  async descontarEstoque(equipamentoId: number, qtd: number): Promise<void> {
     const equipamento = await this.equipamentoRepo.findOne({ where: { id: equipamentoId } });
 
     if (!equipamento) {

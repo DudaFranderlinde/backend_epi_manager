@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { TipoPermissao } from 'src/enums/tipo-permissao.enum';
 import { SolicitacaoEntity } from 'src/solicitacoes/solicitaçoes.entity';
+import { TipoAtivo } from 'src/enums/tipo-ativo.enum';
 
 @Entity()
 export class ColaboradorEntity {
@@ -40,6 +41,13 @@ export class ColaboradorEntity {
     default: TipoPermissao.COLABORADOR,
   })
   permissao: TipoPermissao;
+
+    @Column({
+    type: 'enum',
+    enum: TipoAtivo,
+    default: TipoAtivo.DESATIVADO,
+  })
+  status_uso: TipoAtivo;
 
   @OneToMany(() => SolicitacaoEntity, solicitacao => solicitacao.solicitante)
   solicitacoes: SolicitacaoEntity[];

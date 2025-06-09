@@ -9,7 +9,8 @@ import {
     Request,
     Patch,
     Param,
-    ParseIntPipe
+    ParseIntPipe,
+    Delete
   } from '@nestjs/common';
 import { ColaboradorService } from './colaborador.service';
 import { CreateColaboradorDto } from './dto/create-colaborador.dto';
@@ -93,7 +94,14 @@ import { UpdateColaboradorDto } from './dto/update-colaborador.dto';
     @Patch(':id')
     async update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateColaboradorDto) {
     return this.colaboradorService.updateColaborador(id, data);
-  }
+    }
 
+    @Patch(':id/status')
+    // @Roles(TipoPermissao.ADMIN)
+    async alterarStatusUso(
+      @Param('id') id: number,
+    ) {
+      return this.colaboradorService.alterarStatusUso(id);
+    }
   }
   
