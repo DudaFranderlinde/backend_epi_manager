@@ -1,7 +1,8 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { CreateEquipamentoDto } from "./dto/create-equipamento.dto";
 import { EquipamentoEntity } from "./equipamento.entity";
 import { Repository } from "typeorm";
+import { TipoAtivo } from "src/enums/tipo-ativo.enum";
 
 @Injectable()
 export class EquipamentoService {
@@ -35,4 +36,41 @@ export class EquipamentoService {
   async findAll(): Promise<EquipamentoEntity[]> {
     return this.equipamentoRepo.find();
   }
+
+  async descontarEstoque(equipamentoId: number, qtd: number): Promise<void> {
+    const equipamento = await this.equipamentoRepo.findOne({ where: { id: equipamentoId } });
+
+    if (!equipamento) {
+      throw new BadRequestException('Equipamento não encontrado');
+    }
+
+    if (equipamento.qtd < qtd) {
+      throw new BadRequestException('Estoque insuficiente');
+    }
+
+    equipamento.qtd -= qtd;
+    await this.equipamentoRepo.save(equipamento);
+  }
+
+      async alterarStatusUso(id: number): Promise<{ message: string }> {
+          const equipamento = await this.equipamentoRepo.findOne({ where: { id } });
+          let alteração;
+  
+          if (!equipamento) {
+              throw new NotFoundException('Equipamento não encontrado');
+          }
+  
+          if (equipamento.status_uso == TipoAtivo.ATIVO){
+              equipamento.status_uso = TipoAtivo.DESATIVADO
+              alteração = "desativado";
+          } else {
+              equipamento.status_uso = TipoAtivo.ATIVO
+              alteração = "reativado"
+          }
+              
+         
+          await this.equipamentoRepo.save(equipamento);
+  
+          return { message: `Colaborador ${alteração} com sucesso` };
+      }
 }

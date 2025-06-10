@@ -5,6 +5,8 @@ import { JwtService } from "@nestjs/jwt";
 import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { UpdateColaboradorDto } from "./dto/update-colaborador.dto";
+import { TipoAtivo } from "src/enums/tipo-ativo.enum";
+import { checkPassDTO } from "./dto/change-password.dto";
 
 
 @Injectable()
@@ -83,7 +85,7 @@ export class ColaboradorService {
 
     async findByMatricula(matricula: string): Promise<ColaboradorEntity> {
         const colaborador = await this.colaboradorRepository.findOne({
-          where: { matricula },
+          where: { matricula, status_uso: TipoAtivo.ATIVO },
           select: ['id', 'matricula', 'nome', 'senha', 'permissao'],
         });
     
@@ -120,5 +122,44 @@ export class ColaboradorService {
         return this.colaboradorRepository.save(colaborador);
     }
 
+    async alterarStatusUso(id: number): Promise<{ message: string }> {
+        const colaborador = await this.colaboradorRepository.findOne({ where: { id } });
+        let alteração;
 
+        if (!colaborador) {
+            throw new NotFoundException('Colaborador não encontrado');
+        }
+
+        if (colaborador.status_uso == TipoAtivo.ATIVO){
+            colaborador.status_uso = TipoAtivo.DESATIVADO
+            alteração = "desativado";
+        } else {
+            colaborador.status_uso = TipoAtivo.ATIVO
+            alteração = "reativado"
+        }
+            
+       
+        await this.colaboradorRepository.save(colaborador);
+
+        return { message: `Colaborador ${alteração} com sucesso` };
+    }
+
+    async changePassword(forgotPasswordDto: checkPassDTO): Promise<{ message: string }> {
+        const colaborador = await this.colaboradorRepository.findOne({
+            where: { matricula: forgotPasswordDto.matricula },
+        });
+
+        if (!colaborador) {
+            throw new NotFoundException('Colaborador não encontrado com essa matrícula');
+        }
+
+        const salt = await bcrypt.genSalt();
+        colaborador.salt = salt;
+        colaborador.senha = await bcrypt.hash(forgotPasswordDto.novaSenha, salt);
+
+
+        await this.colaboradorRepository.save(colaborador);
+
+        return { message: 'Senha atualizada com sucesso' };
+    }
 }

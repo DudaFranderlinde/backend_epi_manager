@@ -7,13 +7,17 @@ export class CreateEquipamentoDto {
 
   @IsString()
   @IsOptional()
-  ca?: string;
+  ca: string;
 
   @IsDateString()
   @IsOptional()
-  dataValidade?: string;
+  dataValidade: string;
 
   @IsNumber()
   @IsNotEmpty()
   preco: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  qtd: number;
 }

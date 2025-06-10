@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Estoque } from 'src/estoque/estoque.entity';
 import { HistoricoEntradaSaida } from 'src/historicoEntradaSaida/historicoEntradaSaida.entity';
 import { SolicitacaoEntity } from 'src/solicitacoes/solicitaçoes.entity';
+import { TipoAtivo } from 'src/enums/tipo-ativo.enum';
 
 @Entity()
 export class EquipamentoEntity {
@@ -17,18 +17,25 @@ export class EquipamentoEntity {
   @Column({type: 'numeric'})
   preco: number;
 
-  @Column({ nullable: true })
-  dataValidade: Date;
+  @Column({type: 'int'})
+  qtd: number;
 
-  @Column({ nullable: true })
+  @Column({type: 'varchar'})
   ca: string;
 
-  @OneToMany(() => Estoque, estoque => estoque.equipamento)
-  estoques: Estoque[];
+  @Column({type: 'varchar'})
+  data_validade: string;
 
-  @OneToMany(() => HistoricoEntradaSaida, hist => hist.equipamento)
-  historico: HistoricoEntradaSaida[];
+  // @OneToMany(() => HistoricoEntradaSaida, hist => hist.equipamento)
+  // historico: HistoricoEntradaSaida[];
 
   @OneToMany(() => SolicitacaoEntity, sol => sol.equipamento)
   solicitacoes: SolicitacaoEntity[];
+
+  @Column({
+    type: 'enum',
+    enum: TipoAtivo,
+    default: TipoAtivo.DESATIVADO,
+  })
+  status_uso: TipoAtivo;
 }

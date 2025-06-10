@@ -9,7 +9,8 @@ import {
     Request,
     Patch,
     Param,
-    ParseIntPipe
+    ParseIntPipe,
+    Delete
   } from '@nestjs/common';
 import { ColaboradorService } from './colaborador.service';
 import { CreateColaboradorDto } from './dto/create-colaborador.dto';
@@ -19,6 +20,7 @@ import { RolesGuard } from 'src/core/roles/roles.guard';
 import { Roles } from 'src/core/roles/roles.decorator';
 import { ColaboradorEntity } from './colaborador.entity';
 import { UpdateColaboradorDto } from './dto/update-colaborador.dto';
+import { checkPassDTO } from './dto/change-password.dto';
   
   @Controller('colaboradores')
   export class ColaboradorController {
@@ -93,7 +95,19 @@ import { UpdateColaboradorDto } from './dto/update-colaborador.dto';
     @Patch(':id')
     async update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateColaboradorDto) {
     return this.colaboradorService.updateColaborador(id, data);
+    }
+
+  @Patch(':id/status')
+    // @Roles(TipoPermissao.ADMIN)
+  async alterarStatusUso(
+      @Param('id') id: number,
+    ) {
+      return this.colaboradorService.alterarStatusUso(id);
   }
 
+  @Post('forgot-password')
+  async forgotPassword(@Body() dto: checkPassDTO) {
+    return this.colaboradorService.changePassword(dto);
   }
+}
   

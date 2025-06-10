@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "src/core/auth/guard/jwt-auth.guard";
 import { RolesGuard } from "src/core/roles/roles.guard";
 import { EquipamentoService } from "./equipamento.service";
@@ -28,4 +28,12 @@ export class EquipamentoController {
   async findAll() {
     return this.equipamentoService.findAll();
   }
+
+    @Patch(':id/status')
+      // @Roles(TipoPermissao.ADMIN)
+    async alterarStatusUso(
+        @Param('id') id: number,
+      ) {
+        return this.equipamentoService.alterarStatusUso(id);
+    }
 }
