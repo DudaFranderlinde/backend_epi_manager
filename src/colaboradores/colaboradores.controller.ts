@@ -20,6 +20,7 @@ import { RolesGuard } from 'src/core/roles/roles.guard';
 import { Roles } from 'src/core/roles/roles.decorator';
 import { ColaboradorEntity } from './colaborador.entity';
 import { UpdateColaboradorDto } from './dto/update-colaborador.dto';
+import { checkPassDTO } from './dto/change-password.dto';
   
   @Controller('colaboradores')
   export class ColaboradorController {
@@ -96,12 +97,17 @@ import { UpdateColaboradorDto } from './dto/update-colaborador.dto';
     return this.colaboradorService.updateColaborador(id, data);
     }
 
-    @Patch(':id/status')
+  @Patch(':id/status')
     // @Roles(TipoPermissao.ADMIN)
-    async alterarStatusUso(
+  async alterarStatusUso(
       @Param('id') id: number,
     ) {
       return this.colaboradorService.alterarStatusUso(id);
-    }
   }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() dto: checkPassDTO) {
+    return this.colaboradorService.changePassword(dto);
+  }
+}
   

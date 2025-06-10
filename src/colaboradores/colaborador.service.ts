@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { UpdateColaboradorDto } from "./dto/update-colaborador.dto";
 import { TipoAtivo } from "src/enums/tipo-ativo.enum";
+import { checkPassDTO } from "./dto/change-password.dto";
 
 
 @Injectable()
@@ -143,5 +144,22 @@ export class ColaboradorService {
         return { message: `Colaborador ${alteração} com sucesso` };
     }
 
+    async changePassword(forgotPasswordDto: checkPassDTO): Promise<{ message: string }> {
+        const colaborador = await this.colaboradorRepository.findOne({
+            where: { matricula: forgotPasswordDto.matricula },
+        });
 
+        if (!colaborador) {
+            throw new NotFoundException('Colaborador não encontrado com essa matrícula');
+        }
+
+        const salt = await bcrypt.genSalt();
+        colaborador.salt = salt;
+        colaborador.senha = await bcrypt.hash(forgotPasswordDto.novaSenha, salt);
+
+
+        await this.colaboradorRepository.save(colaborador);
+
+        return { message: 'Senha atualizada com sucesso' };
+    }
 }
