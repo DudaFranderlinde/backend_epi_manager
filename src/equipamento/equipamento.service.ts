@@ -2,6 +2,7 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from "@nes
 import { CreateEquipamentoDto } from "./dto/create-equipamento.dto";
 import { EquipamentoEntity } from "./equipamento.entity";
 import { Repository } from "typeorm";
+import { TipoAtivo } from "src/enums/tipo-ativo.enum";
 
 @Injectable()
 export class EquipamentoService {
@@ -50,4 +51,26 @@ export class EquipamentoService {
     equipamento.qtd -= qtd;
     await this.equipamentoRepo.save(equipamento);
   }
+
+      async alterarStatusUso(id: number): Promise<{ message: string }> {
+          const equipamento = await this.equipamentoRepo.findOne({ where: { id } });
+          let alteração;
+  
+          if (!equipamento) {
+              throw new NotFoundException('Equipamento não encontrado');
+          }
+  
+          if (equipamento.status_uso == TipoAtivo.ATIVO){
+              equipamento.status_uso = TipoAtivo.DESATIVADO
+              alteração = "desativado";
+          } else {
+              equipamento.status_uso = TipoAtivo.ATIVO
+              alteração = "reativado"
+          }
+              
+         
+          await this.equipamentoRepo.save(equipamento);
+  
+          return { message: `Colaborador ${alteração} com sucesso` };
+      }
 }
