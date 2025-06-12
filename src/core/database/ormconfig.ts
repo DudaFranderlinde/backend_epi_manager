@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { DataSource } from 'typeorm';
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv-flow').config();
+}
+
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
