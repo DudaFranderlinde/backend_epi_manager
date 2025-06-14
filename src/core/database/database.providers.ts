@@ -4,8 +4,10 @@ export const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
     useFactory: async () => {
-      const dataSource = AppDataSource;
-      return dataSource.initialize();
+      if (!AppDataSource.isInitialized) {
+        await AppDataSource.initialize();
+      }
+      return AppDataSource;
     },
   },
 ];
