@@ -62,6 +62,10 @@ export class ColaboradorService {
                 const createColaborador = this.colaboradorRepository.create({
                     ...dto,
                 });
+                
+                if (dto.nome_lideranca === undefined) {
+                    createColaborador.nome_lideranca = "N/A"
+                }
                 createColaborador.salt = await bcrypt.genSalt();
                 createColaborador.senha =  await bcrypt.hash(senha, createColaborador.salt);
                 createColaborador.data_cadastro = new Date();

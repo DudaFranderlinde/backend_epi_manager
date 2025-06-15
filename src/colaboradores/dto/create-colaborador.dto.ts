@@ -1,4 +1,4 @@
-import { IsString, IsBoolean, IsEnum, IsNotEmpty, Matches, MinLength, IsEmail } from 'class-validator';
+import { IsString, IsBoolean, IsEnum, IsNotEmpty, Matches, MinLength, IsEmail, IsOptional } from 'class-validator';
 import { TipoPermissao } from 'src/enums/tipo-permissao.enum';
 
 export class CreateColaboradorDto {
@@ -35,8 +35,8 @@ export class CreateColaboradorDto {
   lideranca: boolean;
 
   @IsString()
-  @IsNotEmpty()
-  nome_lideranca: string;
+  @IsOptional()
+  nome_lideranca?: string;
 
   @IsEnum(TipoPermissao)
   @IsNotEmpty()
