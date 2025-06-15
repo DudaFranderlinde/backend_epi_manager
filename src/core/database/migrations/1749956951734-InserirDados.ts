@@ -1,17 +1,18 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class InserindoDados1749517617261 implements MigrationInterface {
+export class InserirDados1749956951734 implements MigrationInterface {
+    name = 'InserirDados1749956951734'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
             INSERT INTO colaborador_entity (
-                matricula, nome, cpf, cargo, setor, lideranca, nome_lideranca,
+                matricula, nome, email, cpf, cargo, setor, lideranca, nome_lideranca,
                 senha, salt, permissao, status_uso
             ) VALUES (
-                '0001', 'Admin Sistema', '000.000.000-00', 'Administrador', 'TI', true, 'N/A',
+                '0001', 'Admin', 'admin_master@gmail.com', '531.997.495-58', 'Administrador', 'TI', false, 'N/A',
                 '$2b$10$EG4blFIjFI/lnUTzrR9EtO.yVz0u9DcsIQaEkbHIl3iiR5RUZbbw6', '', 'ADMIN', 'ATIVO'
             )
-            `);
+        `);
 
         await queryRunner.query(`
             INSERT INTO equipamento_entity (descricao, preco, qtd, ca, data_validade, status_uso) VALUES
@@ -25,7 +26,7 @@ export class InserindoDados1749517617261 implements MigrationInterface {
             ('Mangote de Raspa', 25.00, 120, 'CA10008', '2026-12-05', 'ATIVO'),
             ('Cinturão de Segurança', 180.00, 60, 'CA10009', '2027-05-01', 'ATIVO'),
             ('Blusão Antichama', 150.00, 90, 'CA10010', '2026-11-11', 'ATIVO')
-            `);
+        `);
 
     }
 

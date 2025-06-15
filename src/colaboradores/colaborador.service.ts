@@ -51,9 +51,7 @@ export class ColaboradorService {
 
     async create(dto: CreateColaboradorDto): Promise<ColaboradorEntity> {
         return new Promise(async (resolve, reject) => {
-            try {
-                console.log("entrou");
-                
+            try {                
                 const {senha} = dto;
                 const findColaborador = await this.findColaborador(dto.cpf);
                 

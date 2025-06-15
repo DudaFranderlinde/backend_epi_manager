@@ -15,6 +15,9 @@ export class ColaboradorEntity {
   nome: string;
 
   @Column()
+  email: string;
+
+  @Column()
   cpf: string;
 
   @Column()

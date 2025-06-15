@@ -1,4 +1,4 @@
-import { IsString, IsBoolean, IsEnum, IsNotEmpty, Matches, MinLength } from 'class-validator';
+import { IsString, IsBoolean, IsEnum, IsNotEmpty, Matches, MinLength, IsEmail } from 'class-validator';
 import { TipoPermissao } from 'src/enums/tipo-permissao.enum';
 
 export class CreateColaboradorDto {
@@ -6,9 +6,14 @@ export class CreateColaboradorDto {
   @IsNotEmpty({message: "O campo matricula não pode ser vazio"})
   matricula: string;
 
-  @IsString({message: "O campo matricula deve ser uma string"})
-  @IsNotEmpty({message: "O campo matricula não pode ser vazio"})
+  @IsString({message: "O campo nome deve ser uma string"})
+  @IsNotEmpty({message: "O campo nome não pode ser vazio"})
   nome: string;
+
+  @IsString({message: "O campo email deve ser uma string"})
+  @IsNotEmpty({message: "O campo email não pode ser vazio"})
+  @IsEmail()
+  email: string;
 
   @IsString({message: "O campo matricula deve ser uma string"})
   @IsNotEmpty({message: "O campo matricula não pode ser vazio"})
