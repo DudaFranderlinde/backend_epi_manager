@@ -109,7 +109,7 @@ export class SolicitacaoService {
     });
 
     if (!solicitacao) {
-      throw new NotFoundException('Solicitação não encontrada');
+      throw new NotFoundException('Solicitação não encontrada ou ainda está aguardando aprovação');
     }
 
     solicitacao.status = StatusSolicitacao.ENTREGUE;
