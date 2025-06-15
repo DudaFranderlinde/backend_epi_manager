@@ -2,7 +2,6 @@ import { Body, Controller, Get, HttpException, HttpStatus, Param, Patch, Post, P
 import { JwtAuthGuard } from "src/core/auth/guard/jwt-auth.guard";
 import { SolicitacaoService } from "./solicitacoes.service";
 import { CreateSolicitacaoDto } from "./dto/create-solicitacao.dto";
-import { StatusSolicitacao } from "src/enums/status-solicitacao.enum";
 import { UpdateStatusDto } from "./dto/update-status.dto";
 
 @UseGuards(JwtAuthGuard)
@@ -11,9 +10,9 @@ export class SolicitacaoController {
   constructor(private readonly solicitacaoService: SolicitacaoService) {}
 
   @Post('create')
-  async create(@Body() dto: CreateSolicitacaoDto,    @Request() req) {
+  async create(@Body() dto: CreateSolicitacaoDto,  @Request() req) {
     try {
-        const colaboradorId = req.user.sub; 
+        const colaboradorId = req.user.id;
         return this.solicitacaoService.create(dto, colaboradorId);
     } catch (error) {
         if (error.code == 23505)
