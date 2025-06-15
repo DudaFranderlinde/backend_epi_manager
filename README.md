@@ -33,22 +33,16 @@ Crie um arquivo .env na raiz igual ao arquivo `env.example` disponível no diret
 
 ### 📦 Instalar dependências
 ```bash
-npm install
-# ou
-yarn
+npm install && npm run build
 ```
 
 ### 🔧 Executar migrações ou sincronizar banco (conforme config TypeORM)
 ```bash
-npm run start:dev
-# ou
-yarn start:dev
+npm run migration:run
 ```
 ### ▶️ Rodar o projeto
 ```bash
 npm run start:dev
-# ou
-yarn start:dev
 ```
 ## 🧪 Testes Unitários Implementados
 
@@ -83,7 +77,7 @@ Realiza o login com matrícula e senha.
 **Request:**
 ```json
 {
-  "matricula": "admin123",
+  "matricula": "0011",
   "senha": "senhaSegura"
 }
 ```
@@ -95,8 +89,6 @@ Realiza o login com matrícula e senha.
   "permissao": "ADMIN"
 }
 ```
-
-> ⚠️ Utiliza `UseGuards` com estratégia JWT e validação de permissão. Autorização é verificada via `@Roles(Permissao.ADMIN)` onde necessário.
 
 ---
 
@@ -120,15 +112,66 @@ Cadastra um novo colaborador (apenas para ADMIN).
 }
 ```
 
-**Authorization:**
-Header `Authorization: Bearer <token_do_admin>`
-
 ---
 
 ### `GET /colaboradores`
-Retorna todos os colaboradores cadastrados **sem exibir senha e salt**.
+Retorna todos os colaboradores cadastrados.
 
 ---
+
+### `GET /colaboradores/find-me`
+Retorna os dados do usuário logadp.
+
+
+---
+
+### `PATCH /colaboradores/:id`
+Alteração de informações do cadastro de colaborador.
+
+**Request:**
+```json
+{
+  "cargo": "Vigilante",
+  "setor": "Almoxarifado",
+  "lideranca": true,
+  "nome_lideranca": "Lucas Silva",
+  "permissao": "ALMOXARIFADO",
+  "senha": "senha123"
+}
+```
+---
+
+### `PATCH /colaboradores/:id/status`
+Desativar colaborador no sistema
+**Response:**
+```json
+{
+	"message": "Colaborador reativado com sucesso"
+}
+```
+---
+
+### `GET /colaboradores/find-lead`
+Retorna os todos os colaboradores considerados lideranças.
+
+---
+
+### `POST /colaboradores/forgot-password`
+Reset da senha via matrícula
+**Request:**
+```json
+{
+  "matricula": "11111",
+  "novaSenha": "senhaNova"
+}
+```
+
+**Response (200 OK):**
+```json
+{
+	"message": "Senha atualizada com sucesso"
+}
+```
 
 ## 🛠️ Equipamentos
 
@@ -159,6 +202,26 @@ Cadastra novo equipamento. O código do equipamento é **gerado automaticamente*
 
 ---
 
+### `GET /equipamentos/:id`
+Retorna informações de um equipamento
+
+---
+
+### `GET /equipamentos/`
+Retorna todos os equipamentos cadastrados.
+
+---
+
+### `PATCH /equipamentos/:id/status`
+Desativar equipamento no sistema.
+**Response:**
+```json
+{
+	"message": "Equipamento reativado com sucesso"
+}
+```
+---
+
 ## 📄 Solicitações
 
 ### `POST /solicitacoes`
@@ -183,4 +246,40 @@ Cria uma solicitação de EPI. A solicitação entra com status `PENDENTE`.
 }
 ```
 
+---
+
+### `GET /solicitacoes/`
+Retorna todas as solicitações cadastradas.
+
+---
+
+### `GET /solicitacoes/pending`
+Retorna todas as solicitações pendentes.
+
+---
+
+### `GET /solicitacoes/my-request`
+Retorna todas as solicitações cadastradas pelo usuário logado.
+
+---
+
+### `PUT /solicitacoes/delivery`
+Confirmação de entrega do EPI solicitado.
+
+**Request:**
+```json
+{
+	"id": 1
+}
+```
+---
+### `PUT /solicitacoes/aprove`
+Confirma se a ficha será aprovada ou rejeitada pelo almoxarifado.
+**Request:**
+```json
+{
+	"status": "REJEITADA",
+	"id": 2
+}
+```
 ---
