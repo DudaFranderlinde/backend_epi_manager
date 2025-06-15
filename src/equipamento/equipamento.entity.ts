@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { HistoricoEntradaSaida } from 'src/historicoEntradaSaida/historicoEntradaSaida.entity';
 import { SolicitacaoEntity } from 'src/solicitacoes/solicitaçoes.entity';
 import { TipoAtivo } from 'src/enums/tipo-ativo.enum';
 
@@ -26,16 +25,16 @@ export class EquipamentoEntity {
   @Column({type: 'varchar'})
   data_validade: string;
 
-  // @OneToMany(() => HistoricoEntradaSaida, hist => hist.equipamento)
-  // historico: HistoricoEntradaSaida[];
-
   @OneToMany(() => SolicitacaoEntity, sol => sol.equipamento)
   solicitacoes: SolicitacaoEntity[];
 
   @Column({
     type: 'enum',
     enum: TipoAtivo,
-    default: TipoAtivo.DESATIVADO,
+    default: TipoAtivo.ATIVO,
   })
   status_uso: TipoAtivo;
+
+  @Column()
+  foto: string;
 }

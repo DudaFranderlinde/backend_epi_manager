@@ -64,6 +64,7 @@ export class ColaboradorService {
                 });
                 createColaborador.salt = await bcrypt.genSalt();
                 createColaborador.senha =  await bcrypt.hash(senha, createColaborador.salt);
+                createColaborador.data_cadastro = new Date();
                 
                 const createdColaborador = await this.colaboradorRepository.save(createColaborador);
 

@@ -5,6 +5,7 @@ import { EquipamentoService } from "./equipamento.service";
 import { Roles } from "src/core/roles/roles.decorator";
 import { TipoPermissao } from "src/enums/tipo-permissao.enum";
 import { CreateEquipamentoDto } from "./dto/create-equipamento.dto";
+import { UpdateEquipamentoDto } from "./dto/update-equipamento.dto";
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('equipamentos')
@@ -29,11 +30,17 @@ export class EquipamentoController {
     return this.equipamentoService.findAll();
   }
 
-    @Patch(':id/status')
-      // @Roles(TipoPermissao.ADMIN)
-    async alterarStatusUso(
-        @Param('id') id: number,
-      ) {
-        return this.equipamentoService.alterarStatusUso(id);
-    }
+  @Patch(':id/status')
+    @Roles(TipoPermissao.ADMIN, TipoPermissao.ALMOXARIFADO)
+  async alterarStatusUso(
+      @Param('id') id: number,
+    ) {
+      return this.equipamentoService.alterarStatusUso(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id')
+  async update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateEquipamentoDto) {
+  return this.equipamentoService.updateEquipamento(id, data);
+  }
 }

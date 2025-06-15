@@ -33,6 +33,9 @@ export class ColaboradorEntity {
   nome_lideranca: string;
 
   @Column()
+  data_cadastro: Date;
+
+  @Column()
   senha: string;
 
   @Column()
@@ -48,7 +51,7 @@ export class ColaboradorEntity {
     @Column({
     type: 'enum',
     enum: TipoAtivo,
-    default: TipoAtivo.DESATIVADO,
+    default: TipoAtivo.ATIVO,
   })
   status_uso: TipoAtivo;
 

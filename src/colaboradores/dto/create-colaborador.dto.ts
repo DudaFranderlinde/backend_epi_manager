@@ -15,8 +15,8 @@ export class CreateColaboradorDto {
   @IsEmail()
   email: string;
 
-  @IsString({message: "O campo matricula deve ser uma string"})
-  @IsNotEmpty({message: "O campo matricula não pode ser vazio"})
+  @IsString({message: "O campo CPF deve ser uma string"})
+  @IsNotEmpty({message: "O campo CPF não pode ser vazio"})
   @Matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, {
     message: 'CPF deve estar no formato 000.000.000-00',
   })

@@ -6,12 +6,12 @@ export class CreateEquipamentoDto {
   descricao: string;
 
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   ca: string;
 
   @IsDateString()
-  @IsOptional()
-  dataValidade: string;
+  @IsNotEmpty()
+  data_validade: string;
 
   @IsNumber()
   @IsNotEmpty()
@@ -20,4 +20,8 @@ export class CreateEquipamentoDto {
   @IsNumber()
   @IsNotEmpty()
   qtd: number;
+    
+  @IsString()
+  @IsNotEmpty()
+  foto: string;
 }
