@@ -77,8 +77,6 @@ import { checkPassDTO } from './dto/change-password.dto';
     async findMe(@Request() req): Promise<ColaboradorEntity> {
       try {
         const availableColaborador = await this.colaboradorService.findColaboradorById(req.user.id);
-        console.log(availableColaborador);
-        
         return availableColaborador;
       } catch (error) {
           throw new HttpException(

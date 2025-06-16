@@ -22,9 +22,6 @@ export class SolicitacaoService {
                 const equipamento = await this.equipamentoService.findOneByCod(dto.equipamentoId);
                 if (!equipamento) throw new NotFoundException({message: 'Equipamento não encontrado'});
 
-                console.log(1);
-                
-
                 const solicitante = await this.colaboradorService.findColaboradorById(id_solicitante);
                 if (!solicitante) throw new NotFoundException('Erro na Integrção! Colaborador não encontrado');
 

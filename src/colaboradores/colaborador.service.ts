@@ -25,8 +25,6 @@ export class ColaboradorService {
     }
 
     async findColaboradorById(id: number): Promise<ColaboradorEntity>{
-        console.log(id);
-        
         const existingColaborador = this.colaboradorRepository.findOne({
             where: {id: id}
         })
