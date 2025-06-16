@@ -26,8 +26,8 @@ import { checkPassDTO } from './dto/change-password.dto';
   export class ColaboradorController {
     constructor(private readonly colaboradorService: ColaboradorService) {}
   
-    // @UseGuards(JwtAuthGuard, RolesGuard)
-    // @Roles(TipoPermissao.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(TipoPermissao.ADMIN)
     @Post('create')
     async create(@Body() dto: CreateColaboradorDto) {
         try {

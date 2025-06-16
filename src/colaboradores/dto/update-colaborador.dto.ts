@@ -1,5 +1,3 @@
-// src/colaboradores/dto/update-colaborador.dto.ts
-
 import { IsOptional, IsString, IsBoolean, IsEnum } from 'class-validator';
 import { TipoPermissao } from 'src/enums/tipo-permissao.enum';
 

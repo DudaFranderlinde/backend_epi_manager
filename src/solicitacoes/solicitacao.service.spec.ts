@@ -59,7 +59,7 @@ describe('SolicitacaoService', () => {
     const result = await service.create(dto as any, 2);
     expect(result).toEqual(solicitacaoCriada);
 
-    expect(mockSolicitacaoRepo.create).toHaveBeenCalled(); // remove verificação com args
+    expect(mockSolicitacaoRepo.create).toHaveBeenCalled(); 
 
     expect(mockSolicitacaoRepo.save).toHaveBeenCalledWith(
         expect.objectContaining({
