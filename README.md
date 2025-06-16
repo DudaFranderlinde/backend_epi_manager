@@ -185,6 +185,7 @@ Cadastra novo equipamento. O código do equipamento é **gerado automaticamente*
   "ca": "12345",
   "dataValidade": "2025-12-31",
   "preco": 37.55555
+  "foto": "link.com.br"
 }
 ```
 
@@ -218,6 +219,18 @@ Desativar equipamento no sistema.
 ```json
 {
 	"message": "Equipamento reativado com sucesso"
+}
+```
+---
+
+### `PATCH /equipamentos/:id`
+Editar equipamento no sistema.
+**Request:**
+```json
+{
+    "preco": 40,
+    "descrição": "Luva Térmica" 
+
 }
 ```
 ---
